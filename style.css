@@ -1,0 +1,394 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --background: #080907;
+    --panel: rgba(27, 29, 22, 0.86);
+    --yellow: #ffe56a;
+    --yellow-light: #fff5b0;
+    --text: #f7f7ef;
+    --text-soft: #aaa99d;
+    --border: rgba(255,255,255,0.09);
+}
+
+body {
+    min-height: 100vh;
+    background: radial-gradient(circle at 35% 45%, #17190f 0%, #0c0d09 32%, #050605 75%);
+    color: var(--text);
+    font-family: "Inter", sans-serif;
+    overflow: hidden;
+}
+
+.scene {
+    min-height: 100vh;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 120px;
+    padding: 40px;
+}
+
+.lamp-area {
+    width: 420px;
+    height: 600px;
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+}
+
+.light-cone {
+    position: absolute;
+    top: 155px;
+    width: 520px;
+    height: 470px;
+    background: linear-gradient(to bottom, rgba(255, 232, 113, 0.48), rgba(255, 225, 80, 0.16), transparent 90%);
+    clip-path: polygon(43% 0, 57% 0, 100% 100%, 0 100%);
+    filter: blur(8px);
+    opacity: 0;
+    transform: scaleY(0.8);
+    transform-origin: top;
+    transition: opacity 0.7s ease, transform 0.7s ease;
+    pointer-events: none;
+}
+
+.scene.light-on .light-cone {
+    opacity: 1;
+    transform: scaleY(1);
+}
+
+.lamp {
+    height: 490px;
+    width: 190px;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    z-index: 3;
+}
+
+.lamp-shade {
+    position: absolute;
+    top: 45px;
+    width: 150px;
+    height: 67px;
+    background: linear-gradient(180deg, #242520, #0e0f0d);
+    border-radius: 80px 80px 20px 20px;
+    box-shadow: 0 -8px 15px rgba(255,255,255,0.03), 0 15px 30px rgba(0,0,0,0.8);
+    z-index: 10;
+}
+
+.lamp-shade::after {
+    content: "";
+    position: absolute;
+    bottom: -5px;
+    left: 7px;
+    width: calc(100% - 14px);
+    height: 12px;
+    background: #11120f;
+    border-radius: 50%;
+}
+
+.lamp-glow {
+    position: absolute;
+    width: 120px;
+    height: 20px;
+    left: 15px;
+    bottom: -8px;
+    background: #fff4b0;
+    border-radius: 50%;
+    opacity: 0;
+    box-shadow: 0 0 12px #fff5b5, 0 0 30px #ffe66f, 0 0 60px rgba(255,221,90,0.75);
+    transition: opacity 0.4s ease;
+}
+
+.scene.light-on .lamp-glow {
+    opacity: 1;
+}
+
+.lamp-pole {
+    position: absolute;
+    top: 108px;
+    width: 7px;
+    height: 330px;
+    background: linear-gradient(to right, #111, #3a3a32, #111);
+    border-radius: 10px;
+}
+
+.lamp-base {
+    position: absolute;
+    bottom: 20px;
+    width: 105px;
+    height: 24px;
+    border-radius: 50%;
+    background: linear-gradient(to bottom, #303127, #10110e);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.8), 0 0 25px rgba(255,220,70,0);
+    transition: 0.5s;
+}
+
+.scene.light-on .lamp-base {
+    box-shadow: 0 10px 20px rgba(0,0,0,0.8), 0 0 35px rgba(255,220,70,0.15);
+}
+
+.pull-switch {
+    position: absolute;
+    top: 88px;
+    left: 128px;
+    width: 30px;
+    height: 150px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    z-index: 4;
+}
+
+.cord {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 2px;
+    height: 105px;
+    transform: translateX(-50%);
+    background: linear-gradient(#bdb48d, #736d54);
+    z-index: 1;
+}
+
+.cord-handle {
+    position: absolute;
+    top: 100px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 13px;
+    height: 24px;
+    border-radius: 8px;
+    background: linear-gradient(to right, #8a8061, #ded2a1, #7a7258);
+    box-shadow: 0 3px 7px rgba(0,0,0,0.5);
+    z-index: 5;
+}
+
+.pull-switch.pull {
+    animation: pullCord 0.45s ease;
+}
+
+@keyframes pullCord {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(25px); }
+    100% { transform: translateY(0); }
+}
+
+.contact-card {
+    width: min(440px, 100%);
+    padding: 42px;
+    border-radius: 28px;
+    background: linear-gradient(145deg, rgba(40,42,32,0.96), rgba(22,24,18,0.92));
+    border: 1px solid var(--border);
+    backdrop-filter: blur(15px);
+    box-shadow: 0 35px 80px rgba(0,0,0,0.6), inset 0 1px rgba(255,255,255,0.06);
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(70px) scale(0.94);
+    filter: blur(8px);
+    transition: opacity 0.8s ease, transform 0.8s cubic-bezier(.16,.84,.3,1), filter 0.7s ease;
+    position: relative;
+    z-index: 5;
+}
+
+.scene.light-on .contact-card {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+}
+
+.small-title {
+    color: var(--yellow);
+    font-size: 11px;
+    letter-spacing: 3px;
+    font-weight: 700;
+}
+
+.contact-header h1 {
+    font-family: "Playfair Display", serif;
+    font-size: 48px;
+    margin: 7px 0 8px;
+}
+
+.contact-header p {
+    color: var(--text-soft);
+    line-height: 1.6;
+    font-size: 14px;
+    margin-bottom: 30px;
+}
+
+.form-group {
+    margin-bottom: 18px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 12px;
+    color: #ccccc0;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    border: 1px solid rgba(255,255,255,0.08);
+    background: rgba(7,8,6,0.58);
+    border-radius: 13px;
+    padding: 15px 16px;
+    color: white;
+    font-family: inherit;
+    outline: none;
+    transition: 0.3s;
+}
+
+.form-group textarea {
+    resize: none;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    border-color: rgba(255,230,100,0.55);
+    box-shadow: 0 0 0 4px rgba(255,225,70,0.05);
+}
+
+::placeholder {
+    color: #77796f;
+}
+
+.send-button {
+    width: 100%;
+    margin-top: 5px;
+    padding: 16px 20px;
+    border: none;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #ffe664, #ffcf32);
+    color: #15160f;
+    font-family: inherit;
+    font-weight: 700;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.send-button span {
+    font-size: 22px;
+}
+
+.send-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 15px 30px rgba(255,215,50,0.18);
+}
+
+.hint {
+    position: absolute;
+    left: 50%;
+    bottom: 30px;
+    transform: translateX(-50%);
+    color: rgba(255,255,255,0.38);
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    transition: 0.4s;
+}
+
+.hint span {
+    color: var(--yellow);
+    font-size: 22px;
+    animation: hintMove 1.6s infinite;
+}
+
+.scene.light-on .hint {
+    opacity: 0;
+}
+
+@keyframes hintMove {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(7px); }
+}
+
+.ambient {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background: #f7df55;
+    border-radius: 50%;
+    box-shadow: 0 0 10px #f7df55, 0 0 20px #f7df55;
+    opacity: 0.35;
+    animation: float 4s infinite ease-in-out;
+}
+
+.ambient-1 { left: 10%; top: 35%; }
+.ambient-2 { left: 27%; top: 73%; animation-delay: 1s; }
+.ambient-3 { right: 10%; top: 22%; animation-delay: 2s; }
+
+@keyframes float {
+    50% {
+        transform: translateY(-15px);
+        opacity: 0.8;
+    }
+}
+
+@media (max-width: 900px) {
+    body { overflow-y: auto; }
+
+    .scene {
+        min-height: 100svh;
+        flex-direction: column;
+        justify-content: flex-start;
+        gap: 0;
+        padding: 20px 18px 70px;
+    }
+
+    .lamp-area {
+        width: 100%;
+        height: 390px;
+        transform: scale(0.74);
+        transform-origin: top center;
+        margin-bottom: -105px;
+    }
+
+    .light-cone { width: 470px; }
+
+    .contact-card {
+        width: min(100%, 430px);
+        padding: 28px 22px;
+    }
+
+    .contact-header h1 { font-size: 39px; }
+
+    .scene:not(.light-on) .contact-card {
+        position: absolute;
+        visibility: hidden;
+    }
+
+    .hint {
+        position: fixed;
+        bottom: 18px;
+    }
+}
+
+@media (max-width: 480px) {
+    .lamp-area {
+        transform: scale(0.68);
+        height: 355px;
+        margin-bottom: -110px;
+    }
+
+    .contact-card { border-radius: 22px; }
+    .contact-header h1 { font-size: 34px; }
+}
